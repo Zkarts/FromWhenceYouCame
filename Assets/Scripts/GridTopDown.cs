@@ -23,15 +23,15 @@ public class GridTopDown : MonoBehaviour
         int height;
 		// setup reference to game manager
         //GetComponent.<Collider>().bounds.size
-        p1 = gameObject.transform.TransformPoint(0, 0, 0);
+        p1 = gameObject.transform.TransformPoint(-1, 0, -1);
         p2 = gameObject.transform.TransformPoint(1, 0, 1);
         width = (int)(p2.x - p1.x);
         height = (int)(p2.y - p1.y);
         Debug.Log(p1+", "+p2);
-        Debug.Log(width +" "+ height);
+        Debug.Log("width: "+width +", height: "+ height);
         columns = (int)(width/gridBlockWidth);
-        rows = Mathf.Abs((int)(height/gridBlockWidth));
-        Debug.Log(columns+" - "+rows);
+        rows = (int)(Mathf.Abs(height/gridBlockWidth));
+        Debug.Log("colums, "+columns+",Rows "+rows);
         generateGrid();
 	}
 
@@ -45,12 +45,11 @@ public class GridTopDown : MonoBehaviour
     void generateGrid(){
         for (int i = 0; i < columns; i++){
             for (int j = 0; j < rows; j++){
-                GameObject obj = Instantiate(gridPrefab, new Vector3(p1.x+gridBlockWidth*i, p1.y, p1.z+gridBlockWidth*i), Quaternion.identity);
+                GameObject obj = Instantiate(gridPrefab, new Vector3(p1.x+(gridBlockWidth*i), p1.y, p1.z+(gridBlockWidth*i)), Quaternion.identity);
                 obj.transform.SetParent(gameObject.transform);
                 obj.GetComponent<GridStat>().x = (int)(p1.x+i*gridBlockWidth);
-                obj.GetComponent<GridStat>().y = (int)(p1.y+j*gridBlockWidth);
-                obj.GetComponent<GridStat>().GridSize = gridBlockWidth;
-                Debug.Log("Node created, "+i+" - "+j);
+                obj.GetComponent<GridStat>().y = (int)(p1.y-j*gridBlockWidth);
+                Debug.Log("Node created, "+i+" - "+j+", "+(int)obj.GetComponent<GridStat>().x+","+(int)obj.GetComponent<GridStat>().y);
             }
         }
         Debug.Log("Grid created");
