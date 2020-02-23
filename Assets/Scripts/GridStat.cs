@@ -5,15 +5,15 @@ using UnityEngine;
 public class GridStat : MonoBehaviour
 {
     public int visited = -1;
-    public int x = 0;
-    public int y = 0;
+    public float x = 0;
+    public float z = 0;
 
     void Start(){
-        this.transform.position = new Vector3(x, y, 0);
+        this.transform.position = new Vector3(x, 0, z);
         //Debug.Log(x+"-"+y);
     }
 
     void Update(){
-        this.transform.position = new Vector3(x, y, 0);
+        this.transform.position = new Vector3(x, 0, z);
     }
 }

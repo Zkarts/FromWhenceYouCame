@@ -11,20 +11,24 @@ public class GridTopDown : MonoBehaviour
     [SerializeField]
     private float gridBlockWidth = 5;
 
-    private Vector3 p1;
-    private Vector3 p2;
+    private Vector3 p1;//topleft
+    private Vector3 p2;//topright
+    private Vector3 p3;//center
 	// set things up here
     private int columns; 
     private int rows; 
 
+    
+    private float width;
+    private float height;
+
 
 	void Awake () {
-        int width;
-        int height;
 		// setup reference to game manager
         //GetComponent.<Collider>().bounds.size
         p1 = gameObject.transform.TransformPoint(-1, 0, -1);
         p2 = gameObject.transform.TransformPoint(1, 0, 1);
+        p3 = gameObject.transform.TransformPoint(0, 0, 0);
         width = (int)(p2.x - p1.x);
         height = (int)(p2.y - p1.y);
         Debug.Log(p1+", "+p2);
@@ -47,11 +51,16 @@ public class GridTopDown : MonoBehaviour
             for (int j = 0; j < rows; j++){
                 GameObject obj = Instantiate(gridPrefab, new Vector3(p1.x+(gridBlockWidth*i), p1.y, p1.z+(gridBlockWidth*i)), Quaternion.identity);
                 obj.transform.SetParent(gameObject.transform);
-                obj.GetComponent<GridStat>().x = (int)(p1.x+i*gridBlockWidth);
-                obj.GetComponent<GridStat>().y = (int)(p1.y-j*gridBlockWidth);
-                Debug.Log("Node created, "+i+" - "+j+", "+(int)obj.GetComponent<GridStat>().x+","+(int)obj.GetComponent<GridStat>().y);
+                obj.GetComponent<GridStat>().x = (p1.x-(i*gridBlockWidth/2));
+                obj.GetComponent<GridStat>().z = (p1.z-(j*gridBlockWidth));
+                //Debug.Log("Node created, "+i+" - "+j+", "+(int)obj.GetComponent<GridStat>().x+","+(int)obj.GetComponent<GridStat>().y);
             }
         }
+        //centerNode
+        GameObject centerNode = Instantiate(gridPrefab, new Vector3(p3.x, p3.y, p3.z), Quaternion.identity);
+        centerNode.transform.SetParent(gameObject.transform);
+        centerNode.GetComponent<GridStat>().x = (p3.x);
+        centerNode.GetComponent<GridStat>().z = (p3.z);
         Debug.Log("Grid created");
     }
 
